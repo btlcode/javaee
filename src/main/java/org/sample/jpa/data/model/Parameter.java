@@ -7,8 +7,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "PARAMETER")
+@NamedQueries({ @NamedQuery(name = "Parameter.getByName", query = "SELECT o FROM Parameter o WHERE o.name LIKE :name") })
 public class Parameter implements Serializable {
 
 	private static final long serialVersionUID = 1L;

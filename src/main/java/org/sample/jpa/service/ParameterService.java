@@ -2,8 +2,12 @@ package org.sample.jpa.service;
 
 import java.util.List;
 
-import org.sample.jpa.data.dao.IParameterRepository;
+import org.sample.jpa.controller.ParameterRest;
+import org.sample.jpa.data.dao.ParameterRepository;
+import org.sample.jpa.data.dao.impl.ParameterDAO;
 import org.sample.jpa.data.model.Parameter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,18 +19,33 @@ import org.springframework.util.Assert;
 @Component("parameterService")
 public class ParameterService {
 
+	transient static final Logger LOG = LoggerFactory.getLogger(ParameterRest.class);
+
 	@Autowired
-	private transient IParameterRepository parameterRepo;
+	private transient ParameterRepository parameterRepository;
 
-	public Page<Parameter> findCities(String name, Pageable pageable) {
+	@Autowired
+	private transient ParameterDAO parameterDAO;
 
+	public Page<Parameter> findParameter(String name, Pageable pageable) {
 		Assert.notNull(name, "Criteria must not be null");
-
-		return this.parameterRepo.findByNameContainingAllIgnoringCase(name.trim(), pageable);
+		return parameterRepository.findByNameContainingAllIgnoringCase(name.trim(), pageable);
 	}
 
-	public List<Parameter> findAll() {
-		return this.parameterRepo.findAll();
+	public Page<Parameter> findAll(Pageable pageable) {
+		LOG.debug("service layer parameterRepository");
+		return parameterRepository.findAll(pageable);
+	}
+
+	public List<Parameter> findAllCustom() {
+		LOG.debug("service layer parameterDAO");
+		//return parameterDAO.findAll();
+		return null;
+	}
+
+	public List<Parameter> findNamesLike(final String name) {
+		LOG.debug("service layer");
+		return parameterRepository.getNamesLike(name);
 	}
 
 }

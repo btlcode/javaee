@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ParameterController {
 
 	@Autowired
-	private ParameterService cityService;
+	private ParameterService parameterService;
 
 	@GetMapping("/")
 	@ResponseBody
 	@Transactional(readOnly = true)
 	@RequestMapping(path = "/findAll")
 	public List<Parameter> findAll() {
-		List<Parameter> restval = this.cityService.findAll();
+		List<Parameter> restval = this.parameterService.findAllCustom();
 		restval.add(new Parameter());
 		restval.get(0).setName("Test Param");
 		restval.get(0).setId(1);
