@@ -34,6 +34,16 @@ public class Parameter implements Serializable {
 	@Column()
 	private Date endDate;
 
+	public Parameter() {
+	}
+
+	public Parameter(long id, String name, String valueString) {
+		this.id = id;
+		this.name = name;
+		this.valueString = valueString;
+		this.startDate = new Date();
+	}
+
 	public long getId() {
 		return id;
 	}
